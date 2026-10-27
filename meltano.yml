@@ -21,6 +21,8 @@ plugins:
           kind: date_iso8601
         - name: page_size
           kind: integer
+        - name: full_table
+          kind: boolean
         - name: resource_keys
           kind: object
       settings_group_validation:
@@ -29,3 +31,4 @@ plugins:
         api_url: https://api.us-east-2.aws.commercetools.com
         auth_url: https://auth.us-east-2.aws.commercetools.com
         page_size: 100
+        full_table: false

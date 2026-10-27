@@ -36,6 +36,12 @@ class TapCommerceTools(Tap):
         ),
         th.Property("page_size", th.IntegerType, default=100),
         th.Property(
+            "full_table",
+            th.BooleanType,
+            default=False,
+            description="Read complete dependency snapshots on every run",
+        ),
+        th.Property(
             "resource_keys",
             th.ObjectType(),
             description="Optional per-stream allowlist of resource keys",

@@ -89,3 +89,13 @@ def test_sync_preserves_arbitrary_nested_attributes(capsys):
 def test_page_size_bounds(size):
     with pytest.raises(ValueError, match="page_size"):
         TapCommerceTools(config=CONFIG | {"page_size": size})
+
+
+@pytest.mark.parametrize("full_table,method", [(False, "INCREMENTAL"), (True, "FULL_TABLE")])
+def test_catalog_replication_policy(full_table, method):
+    tap = TapCommerceTools(config=CONFIG | {"full_table": full_table})
+    assert {s.replication_method for s in tap.catalog.streams} == {method}
+    if full_table:
+        old_catalog = TapCommerceTools(config=CONFIG).catalog.to_dict()
+        restored = TapCommerceTools(config=CONFIG | {"full_table": True}, catalog=old_catalog)
+        assert {s.replication_method for s in restored.streams.values()} == {"FULL_TABLE"}

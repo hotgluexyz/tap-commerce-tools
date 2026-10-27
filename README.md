@@ -30,6 +30,7 @@ Hard deletes are not exposed by these collection APIs; no tombstones are emitted
 | auth_url | no | https://auth.us-east-2.aws.commercetools.com |
 | start_date | no | 2000-01-01T00:00:00Z |
 | page_size | no | 100; integer between 1 and 500 |
+| full_table | no | false; true makes every stream a complete snapshot for denormalized catalog enrichment |
 | resource_keys | no | Per-stream allowlist, e.g. `{"products":["demo-boot"]}`. Omitted stream means unrestricted; empty lists are rejected. |
 
 Client-credentials OAuth uses HTTP Basic authentication at `/oauth/token`.
@@ -58,7 +59,7 @@ uv pip install --python .venv/bin/python -e . pytest responses ruff
 ```
 
 Select desired streams/fields in the discovered catalog. For a denormalized
-catalog-to-search ETL, select FULL_TABLE replication on all four streams, so
+catalog-to-search ETL, set `full_table: true` on all four streams, so
 inventory-only and category-only changes can re-enrich every affected product.
 Alternatively maintain a complete downstream cache before enabling incremental
 extraction across independently changing streams. An incremental product stream

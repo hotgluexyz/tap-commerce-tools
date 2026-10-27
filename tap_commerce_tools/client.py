@@ -37,6 +37,11 @@ class CommerceToolsStream(RESTStream):
     is_sorted = True
 
     @property
+    def replication_method(self):
+        # Explicit full snapshots must also override a previously saved catalog.
+        return "FULL_TABLE" if self.config["full_table"] else super().replication_method
+
+    @property
     def url_base(self):
         return self.config["api_url"].rstrip("/") + "/" + quote(self.config["project_key"], safe="")
 
