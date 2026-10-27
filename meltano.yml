@@ -1,0 +1,31 @@
+version: 1
+default_environment: test
+environments:
+  - name: test
+plugins:
+  extractors:
+    - name: tap-commerce-tools
+      namespace: tap_commerce_tools
+      pip_url: -e .
+      capabilities: [state, catalog, discover, about, stream-maps]
+      settings:
+        - name: project_key
+        - name: client_id
+          sensitive: true
+        - name: client_secret
+          sensitive: true
+        - name: scope
+        - name: api_url
+        - name: auth_url
+        - name: start_date
+          kind: date_iso8601
+        - name: page_size
+          kind: integer
+        - name: resource_keys
+          kind: object
+      settings_group_validation:
+        - [project_key, client_id, client_secret]
+      config:
+        api_url: https://api.us-east-2.aws.commercetools.com
+        auth_url: https://auth.us-east-2.aws.commercetools.com
+        page_size: 100
